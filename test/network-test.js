@@ -17,8 +17,9 @@ var network = artik.network();
 
 /* Test Case Module */
 testCase('Network', function() {
+
 	pre(function() {
-		network = artik.network();
+
 	});
 
 	testCase('#get_online_status()', function() {
