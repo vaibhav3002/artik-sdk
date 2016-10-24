@@ -7,7 +7,7 @@ var postEach   = require('mocha').afterEach;
 var assertions = require('mocha').it;
 var assert     = require('chai').assert;
 var validator  = require('validator');
-var exec = require('child_process').execSync;
+var exec       = require('child_process').execSync;
 var artik      = require('../lib/artik-sdk');
 
 
