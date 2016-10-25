@@ -14,6 +14,7 @@ var artik      = require('../lib/artik-sdk');
 /* Test Specific Includes */
 var media = artik.media();
 var sound_file = '/usr/share/sounds/alsa/Front_Center.wav';
+var start, end;
 
 /* Test Case Module */
 testCase('Media', function() {
@@ -22,10 +23,17 @@ testCase('Media', function() {
 	});
 
 	testCase('#play_sound_file', function() {
+		this.timeout(5000);
+		start = new Date();
 
-		assertions('Play the sound file', function() {
+		assertions('Play the sound file', function(done) {
+
 			media.play_sound_file(sound_file, function(response, status) {
-				console.log('Finished playing');
+				end = new Date();
+				var timeOfPlay = (end.getTime() - start.getTime())/1000;
+				console.log('Finished playing. Seconds ' + timeOfPlay);
+				assert.isAtLeast(timeOfPlay, 1);
+				done();
 			});
 		});
 
