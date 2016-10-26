@@ -54,10 +54,12 @@ testCase('Wifi', function() {
 
 	testCase('#connect(), on(connected)', function() {
 
+
+		assertions('Return callback event when the wifi interface is connected to AP', function(done) {
+
 		if (!ssid || !pwd)
 			this.skip();
 
-		assertions('Return callback event when the wifi interface is connected to AP', function(done) {
 			this.timeout(10000);
 			wifi.on('connected', function() {
 				console.log('onstarted');

@@ -59,6 +59,10 @@ testCase('Bluetooth', function() {
 	testCase('#start_bond(), on(bond)', function() {
 
 		assertions('Return callback event when the bluetooth interface is bonded to remote device', function(done) {
+
+		if (!remote_addr)
+			this.skip();
+
 			this.timeout(10000);
 			bt.on('bond', function(paired) {
 				console.log('bonded');
@@ -72,11 +76,16 @@ testCase('Bluetooth', function() {
 	testCase('#connect(), on(connect)', function() {
 
 		assertions('Return callback event when the bluetooth interface is connected to remote device', function(done) {
+
+		if (!remote_addr)
+			this.skip();
+
 			this.timeout(10000);
 			bt.on('connect', function(connected) {
 				console.log('connected');
 				done();
 			});
+
 			bt.connect(remote_addr);
 		});
 
