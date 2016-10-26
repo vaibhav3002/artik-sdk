@@ -15,14 +15,12 @@ var artik      = require('../lib/artik-sdk');
 var websocket         = require('../src/websocket');
 var auth_token        = process.env.AUTH_TOKEN;
 var device_id         = process.env.DEVICE_ID;
-var message_data      = process.env.MESSAGE_DATA;
 var host              = "api.artik.cloud";
 var uri               = "/v1.1/websocket?ack=true";
 var port              = 443;
 var ssl_connection    = 2;
 var use_se            = false;
 var register_message  = '{"sdid":"' + device_id + '","Authorization":"bearer ' + auth_token + '","type":"register"}';
-var test_send_message = '{\"data\": ' + message_data + ',"sdid": "' + device_id +  '","type": "message"}';
 
 var conn = new websocket(host, uri, port, ssl_connection, use_se);
 
@@ -59,6 +57,8 @@ testCase('Websockets', function() {
 			conn.on('receive', function(message) {
 				console.log("received: " + message);
 				assert.isNotNull(message);
+				assert.equal(JSON.parse(message).data.code, "200");
+				assert.equal(JSON.parse(message).data.message, "OK");
 				done();
 			});
 
