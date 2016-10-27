@@ -14,7 +14,7 @@ var artik      = require('../lib/artik-sdk');
 /* Test Specific Includes */
 var wifi;
 var ssid = process.env.WIFI_SSID;
-var pwd  = process.env.WIFI_PASSWORD;
+var pwd  = process.env.WIFI_PSK;
 
 
 /* Test Case Module */
@@ -57,8 +57,8 @@ testCase('Wifi', function() {
 
 		assertions('Return callback event when the wifi interface is connected to AP', function(done) {
 
-		if (!ssid || !pwd)
-			this.skip();
+            if (!ssid || !pwd || !ssid.length || !pwd.length)
+			    this.skip();
 
 			this.timeout(10000);
 			wifi.on('connected', function() {

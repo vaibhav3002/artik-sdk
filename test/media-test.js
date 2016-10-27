@@ -13,7 +13,7 @@ var artik      = require('../lib/artik-sdk');
 
 /* Test Specific Includes */
 var media = artik.media();
-var sound_file = '/usr/share/sounds/alsa/Front_Center.wav';
+var sound_file = process.env.MEDIA_FILE;
 var start, end;
 
 /* Test Case Module */
@@ -27,6 +27,9 @@ testCase('Media', function() {
 		start = new Date();
 
 		assertions('Play the sound file', function(done) {
+
+			if (!sound_file || !sound_file.length)
+				this.skip();
 
 			media.play_sound_file(sound_file, function(response, status) {
 				end = new Date();

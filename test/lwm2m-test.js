@@ -17,8 +17,8 @@ var lwm2m = new(require('../src/lwm2m.js'))();
 var server_id = 123;
 var server_uri = 'coaps://coaps-api.artik.cloud:5686';
 var lifetime = 30;
-var dtls_psk_id = process.env.DEVICE_ID;
-var dtls_psk_key = process.env.DEVICE_TOKEN;
+var dtls_psk_id = process.env.LWM2M_DEVICE_ID;
+var dtls_psk_key = process.env.LWM2M_DEVICE_TOKEN;
 
 var objects = {
     device: {
@@ -52,6 +52,10 @@ testCase('Lwm2m', function() {
 
 	testCase('client_connect()', function() {
 		assertions('Connect to the LWM2M Server', function(done) {
+
+			if (!dtls_psk_id || !dtls_psk_key || !dtls_psk_id.length || !dtls_psk_key.length)
+				this.skip();
+
 			lwm2m.client_connect(server_id, server_uri, dtls_psk_id, lifetime, JSON.stringify(objects), dtls_psk_id, dtls_psk_key);
 			done();
 		});
@@ -59,7 +63,11 @@ testCase('Lwm2m', function() {
 
 	testCase('client_read_resource()', function() {
 		assertions('Reads the resource', function(done) {
-            var buf = lwm2m.client_read_resource("/3/0/0");
+
+			if (!dtls_psk_id || !dtls_psk_key || !dtls_psk_id.length || !dtls_psk_key.length)
+				this.skip();
+
+			var buf = lwm2m.client_read_resource("/3/0/0");
 			assert.equal(buf, "Samsung");
 			done();
 		});
@@ -67,6 +75,10 @@ testCase('Lwm2m', function() {
 
 	testCase('client_write_resource()', function() {
 		assertions('Write the resource', function(done) {
+
+			if (!dtls_psk_id || !dtls_psk_key || !dtls_psk_id.length || !dtls_psk_key.length)
+				this.skip();
+
 			var resource_uri = "/3/0/3";
             var buf = new Buffer("2.0");
             lwm2m.client_write_resource(resource_uri, buf);

@@ -71,22 +71,23 @@ testCase('GPIO', function() {
 
 	});
 
-	if (runManualTests) {
-		testCase('#button', function() {
+    testCase('#button', function() {
 
-			assertions('Get Button Press Event', function(done) {
+        assertions('Get Button Press Event', function(done) {
 
-				this.timeout(10000);
-				console.log("Please press the button within 10 seconds ");
-				button.on('changed', function(val) {
-					console.log("Button state: " + val);
-					done();
-				});
+            if (!runManualTests)
+                this.skip();
 
-			});
+            this.timeout(10000);
+            console.log("Please press the button within 10 seconds ");
+            button.on('changed', function(val) {
+                console.log("Button state: " + val);
+                done();
+            });
 
-		});
-	}
+        });
+
+    });
 
 	post(function() {
 		red.release();

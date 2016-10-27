@@ -12,15 +12,15 @@ var artik      = require('../lib/artik-sdk');
 
 
 /* Test Specific Includes */
-var mqtt = new(require('../src/mqtt.js'))();
-var client_id = 'artik_mqtt_client';
-var host = 'api.artik.cloud';
-var port = 8883;
-var akc_device_id = process.env.DEVICE_ID;
-var akc_device_token = process.env.DEVICE_TOKEN;
-var akc_msg = '{ "state": true }';  // Change for a message supported by
+var mqtt             = new(require('../src/mqtt.js'))();
+var client_id        = 'artik_mqtt_client';
+var host             = 'api.artik.cloud';
+var port             = 8883;
+var akc_device_id    = process.env.MQTT_DEVICE_ID;
+var akc_device_token = process.env.MQTT_DEVICE_TOKEN;
+var akc_msg          = '{ "state": true }';  // Change for a message supported by
                                     //  the device's manifest
-var ca_cert = '/etc/ssl/certs/ca-bundle.crt';
+var ca_cert          = '/etc/ssl/certs/ca-bundle.crt';
 
 /* Test Case Module */
 testCase('MQTT', function() {
@@ -44,6 +44,9 @@ testCase('MQTT', function() {
 
 		assertions('Return callback event when the mqtt client is connected', function(done) {
 
+            if (!akc_device_id || !akc_device_token || !akc_device_id.length || !akc_device_token.length)
+                this.skip();
+
 			mqtt.on('connected', function(result) {
 				console.log('on connected: ' + result);
 				assert.equal(result, "CONNECTED");
@@ -62,6 +65,9 @@ testCase('MQTT', function() {
 
 		assertions('Return callback event when the mqtt client subscribes to a topic', function(done) {
 
+            if (!akc_device_id || !akc_device_token || !akc_device_id.length || !akc_device_token.length)
+                this.skip();
+
 			mqtt.on('subscribed', function(mid) {
 				console.log('on subscribed: ' + mid);
 				assert.isNotNull(mid);
@@ -78,6 +84,10 @@ testCase('MQTT', function() {
 	testCase('#publish(), on(published), on(message)', function() {
 
 		assertions('Return callback event when the mqtt client receives a message', function(done) {
+
+            if (!akc_device_id || !akc_device_token || !akc_device_id.length || !akc_device_token.length)
+                this.skip();
+
 			this.timeout(5000);
 
 			mqtt.on('published', function(mid) {
@@ -108,6 +118,9 @@ testCase('MQTT', function() {
 
 		assertions('Return callback event when the mqtt client unsubscribes to a topic', function(done) {
 
+            if (!akc_device_id || !akc_device_token || !akc_device_id.length || !akc_device_token.length)
+                this.skip();
+
 			mqtt.on('unsubscribed', function(mid) {
 				console.log('on unsubscribed: ' + mid);
 				assert.isNotNull(mid);
@@ -124,6 +137,9 @@ testCase('MQTT', function() {
 	testCase('#disconnect(), on(disconnected)', function() {
 
 		assertions('Return callback event when the mqtt client unsubscribes to a topic', function(done) {
+
+            if (!akc_device_id || !akc_device_token || !akc_device_id.length || !akc_device_token.length)
+                this.skip();
 
 			mqtt.on('disconnected', function(result) {
 				console.log('on disconnected: ' + result);

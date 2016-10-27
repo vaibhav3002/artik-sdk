@@ -13,7 +13,7 @@ var artik      = require('../lib/artik-sdk');
 
 /* Test Specific Includes */
 var bt;
-var remote_addr = process.env.BLUETOOTH_DEVICE_ADDRESS;
+var remote_addr = process.env.BT_ADDR;
 
 
 /* Test Case Module */
@@ -40,6 +40,10 @@ testCase('Bluetooth', function() {
 
 		assertions('Return callback event when the bluetooth scan request is performed', function(done) {
 			this.timeout(20000);
+
+			if (!remote_addr || !remote_addr.length)
+				this.skip();
+
 			bt.on('scan', function(device) {
 				console.log('scanned');
 				assert.isNotNull(device);
@@ -60,8 +64,8 @@ testCase('Bluetooth', function() {
 
 		assertions('Return callback event when the bluetooth interface is bonded to remote device', function(done) {
 
-		if (!remote_addr)
-			this.skip();
+		    if (!remote_addr || !remote_addr.length)
+			    this.skip();
 
 			this.timeout(10000);
 			bt.on('bond', function(paired) {
@@ -77,8 +81,8 @@ testCase('Bluetooth', function() {
 
 		assertions('Return callback event when the bluetooth interface is connected to remote device', function(done) {
 
-		if (!remote_addr)
-			this.skip();
+		    if (!remote_addr || !remote_addr.length)
+			    this.skip();
 
 			this.timeout(10000);
 			bt.on('connect', function(connected) {

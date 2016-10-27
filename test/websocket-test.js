@@ -13,8 +13,8 @@ var artik      = require('../lib/artik-sdk');
 
 /* Test Specific Includes */
 var websocket         = require('../src/websocket');
-var auth_token        = process.env.AUTH_TOKEN;
-var device_id         = process.env.DEVICE_ID;
+var auth_token        = process.env.WEBSOCKET_ACCESS_TOKEN;
+var device_id         = process.env.WEBSOCKET_DEVICE_ID;
 var host              = "api.artik.cloud";
 var uri               = "/v1.1/websocket?ack=true";
 var port              = 443;
@@ -53,6 +53,9 @@ testCase('Websockets', function() {
 	testCase('#write_stream(), on(receive)', function() {
 
 		assertions('Return callback event when the data is received', function(done) {
+
+            if (!auth_token || !device_id || !auth_token.length || !device_id.length)
+                this.skip();
 
 			conn.on('receive', function(message) {
 				console.log("received: " + message);
